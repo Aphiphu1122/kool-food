@@ -73,8 +73,8 @@ function RegisterPage() {
              )}
            <input onChange={(e) => setName(e.target.value)} className='block bg-gray-300 border py-2 px-3 rounded text-lg my-2' placeholder='Enter your name' />
            <input onChange={(e) => setEmail(e.target.value)} className='block bg-gray-300 border py-2 px-3 rounded text-lg my-2' placeholder='Enter your email' />
-           <input onChange={(e) => setPassword(e.target.value)} className='block bg-gray-300 border py-2 px-3 rounded text-lg my-2' placeholder='Enter your password' />
-           <input onChange={(e) => setConfirmPassword(e.target.value)} className='block bg-gray-300 border py-2 px-3 rounded text-lg my-2' placeholder='Confirm your password' />
+           <input type="password" onChange={(e) => setPassword(e.target.value)} className='block bg-gray-300 border py-2 px-3 rounded text-lg my-2' placeholder='Enter your password' />
+           <input type="password" onChange={(e) => setConfirmPassword(e.target.value)} className='block bg-gray-300 border py-2 px-3 rounded text-lg my-2' placeholder='Confirm your password' />
            <button type='submit' className='bg-green-500 text-white border py-2 px-3 rounded text-lg my-2'>Sign Up</button>
         </form>
         <hr className='my-3' />
