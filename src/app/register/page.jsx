@@ -2,64 +2,62 @@
 
 import React, { useState } from "react";
 import Navbar from "../components/Navbar";
+import Link from "next/link";
 
 function RegisterPage() {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+      if (password != confirmPassword) {
+          setError("Password do not match!");
+          return;
+      }
+
+      if (!name || !email || !password || !confirmPassword) {
+          setError("Please complete all inputs.");
+          return;
+      }
+  }
+
+
   return (
     <div>
       <Navbar />
-      <div className="flex justify-center items-center min-h-screen bg-gray-100">
-        <div className="bg-white w-full max-w-md shadow-lg p-8 rounded-lg">
-          <h3 className="text-3xl font-semibold text-center text-gray-800">Register</h3>
-          <hr className="my-4" />
+      <div className='container mx-auto py-5'>
+        <h3>Register Page</h3>
+        <hr className='my-3' />
+        <form onSubmit={handleSubmit}>
 
-          <form action="" className="flex flex-col gap-4">
-            <div>
-              <label className="block text-gray-700 font-medium">Full Name</label>
-              <input
-                className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                type="text"
-                placeholder="Enter your name"
-              />
-            </div>
+            {error && (
+                 <div className='bg-red-500 w-fit text-sm text-white py-1 px-3 rounded-md mt-2'>
+                    {error}
+                </div>
+             )}
 
-            <div>
-              <label className="block text-gray-700 font-medium">Email</label>
-              <input
-                className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                type="email"
-                placeholder="Enter your email"
-              />
-            </div>
-
-            <div>
-              <label className="block text-gray-700 font-medium">Password</label>
-              <input
-                className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                type="password"
-                placeholder="Enter your password"
-              />
-            </div>
-
-            <div>
-              <label className="block text-gray-700 font-medium">Confirm Password</label>
-              <input
-                className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                type="password"
-                placeholder="Confirm your password"
-              />
-            </div>
-
-            <button
-              type="submit"
-              className="w-full bg-green-500 hover:bg-green-600 text-white font-semibold py-3 rounded-lg transition duration-200"
-            >
-              Sign Up
-            </button>
-          </form>
-        </div>
+            {success && (
+                <div className='bg-green-500 w-fit text-sm text-white py-1 px-3 rounded-md mt-2'>
+                    {success}
+                </div>
+             )}
+           <input onChange={(e) => setName(e.target.value)} className='block bg-gray-300 border py-2 px-3 rounded text-lg my-2' placeholder='Enter your name' />
+           <input onChange={(e) => setEmail(e.target.value)} className='block bg-gray-300 border py-2 px-3 rounded text-lg my-2' placeholder='Enter your email' />
+           <input onChange={(e) => setPassword(e.target.value)} className='block bg-gray-300 border py-2 px-3 rounded text-lg my-2' placeholder='Enter your password' />
+           <input onChange={(e) => setConfirmPassword(e.target.value)} className='block bg-gray-300 border py-2 px-3 rounded text-lg my-2' placeholder='Confirm your password' />
+           <button type='submit' className='bg-green-500 text-white border py-2 px-3 rounded text-lg my-2'>Sign Up</button>
+        </form>
+        <hr className='my-3' />
+        <p>Do not have an account? Go to <Link href="/login" className='text-blue-500 hover:underline'>Login</Link> Page</p>
       </div>
     </div>
-  );
+  )
 }
 
-export default RegisterPage;
+export default RegisterPage
