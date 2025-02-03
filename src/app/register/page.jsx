@@ -25,7 +25,31 @@ function RegisterPage() {
           setError("Please complete all inputs.");
           return;
       }
-  }
+
+      try {
+        const res = await fetch("http://localhost:3000/api/register", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                name, email, password
+            })
+        })
+
+        if (res.ok) {
+            const form = e.target;
+            setError("");
+            setSuccess("User registration successfully!");
+            form.reset();
+        } else {
+            console.log("User registration failed.")
+        }
+
+    } catch(error) {
+        console.log("Error during registration: ", error)
+    }
+}
 
 
   return (
