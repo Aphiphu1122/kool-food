@@ -27,6 +27,11 @@ function Navbar() {
         <ul className="flex space-x-4">
           <li><Link href="/login">Sign In</Link></li>
           <li><Link href="/register">Sign Up</Link></li>
+
+          <>
+                    <li><Link href="/dashboard" className='bg-gray-500 text-white border py-2 px-3 rounded-md text-lg my-2'>Profile</Link></li>
+                    <li><a onClick={() => signOut()} className='bg-red-500 text-white border py-2 px-3 rounded-md text-lg my-2'>Logout</a></li>
+                </>
         </ul>
       </div>
     </nav>
