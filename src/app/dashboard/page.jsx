@@ -2,6 +2,8 @@
 
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 
 function DashboardPage() {
   const [user, setUser] = useState(null);
@@ -45,18 +47,33 @@ function DashboardPage() {
     router.push("/login"); // กลับไปหน้า Login
   };
 
-  if (loading) return <p>Loading...</p>;
+  if (loading)
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <p className="text-lg font-semibold">Loading...</p>
+      </div>
+    );
 
   return (
-    <div className="container mx-auto py-5">
-      <h3 className="text-xl font-bold">Dashboard</h3>
-      <p>Welcome, {user?.email || "User"}!</p>
-      <button
-        onClick={handleLogout}
-        className="bg-red-500 text-white px-4 py-2 rounded mt-4"
-      >
-        Logout
-      </button>
+    <div className="flex flex-col min-h-screen">
+      {/* Navbar */}
+      <Navbar />
+
+      {/* Main Content */}
+      <div className="container mx-auto py-10 flex-grow text-center">
+        <h3 className="text-2xl font-bold mb-4">Dashboard</h3>
+        <p className="text-lg">Welcome, <span className="font-semibold">{user?.email || "User"}</span>!</p>
+        
+        <button
+          onClick={handleLogout}
+          className="bg-red-500 text-white px-6 py-2 rounded mt-6 hover:bg-red-600 transition"
+        >
+          Logout
+        </button>
+      </div>
+
+      {/* Footer */}
+      <Footer />
     </div>
   );
 }

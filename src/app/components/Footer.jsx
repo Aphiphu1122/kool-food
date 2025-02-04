@@ -10,7 +10,7 @@ function Footer() {
         {/* Logo & Copyright */}
         <div className="text-center md:text-left mb-4 md:mb-0">
           <p className="text-lg font-semibold">Koolkidklub</p>
-          <p className="text-sm text-gray-400">© 2024 All rights reserved.</p>
+          <p className="text-sm text-gray-400">© 2025 All rights reserved.</p>
         </div>
 
         {/* Social Media Icons */}
@@ -18,7 +18,7 @@ function Footer() {
           <Link href="https://facebook.com" target="_blank" className="hover:text-gray-400 transition">
             <Facebook size={24} />
           </Link>
-          <Link href="https://twitter.com" target="_blank" className="hover:text-gray-400 transition">
+          <Link href="https://x.com" target="_blank" className="hover:text-gray-400 transition">
             <Twitter size={24} />
           </Link>
           <Link href="https://instagram.com" target="_blank" className="hover:text-gray-400 transition">
