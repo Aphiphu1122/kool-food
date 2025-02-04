@@ -89,7 +89,7 @@ function RegisterPage() {
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="w-full bg-gray-200 border p-3 rounded-md mb-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full bg-gray-300 border p-3 rounded-md mb-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="Enter your name"
             />
             <input

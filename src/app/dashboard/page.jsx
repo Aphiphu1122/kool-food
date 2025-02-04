@@ -4,6 +4,11 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import Image from "next/image";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import "swiper/css/navigation";
+import { Navigation } from "swiper/modules";
 
 function DashboardPage() {
   const [user, setUser] = useState(null);
@@ -14,11 +19,10 @@ function DashboardPage() {
     const token = localStorage.getItem("token");
 
     if (!token) {
-      router.push("/login"); // ถ้าไม่มี Token ให้กลับไปหน้า Login
+      router.push("/login");
       return;
     }
 
-    // ดึงข้อมูลผู้ใช้จาก API (optional)
     fetch("http://localhost:3000/api/profile", {
       method: "GET",
       headers: {
@@ -43,8 +47,8 @@ function DashboardPage() {
   }, []);
 
   const handleLogout = () => {
-    localStorage.removeItem("token"); // ลบ Token ออกจาก localStorage
-    router.push("/login"); // กลับไปหน้า Login
+    localStorage.removeItem("token");
+    router.push("/login");
   };
 
   if (loading)
@@ -56,13 +60,42 @@ function DashboardPage() {
 
   return (
     <div className="flex flex-col min-h-screen">
-      {/* Navbar */}
       <Navbar />
 
-      {/* Main Content */}
       <div className="container mx-auto py-10 flex-grow text-center">
-        <h3 className="text-2xl font-bold mb-4">Dashboard</h3>
-        <p className="text-lg">Welcome, <span className="font-semibold">{user?.email || "User"}</span>!</p>
+        <h3 className="text-2xl font-bold mb-4">Hi Welcome To KoolFood</h3>
+        <p className="text-lg">Hello, <span className="font-semibold">{user?.email || "User"}</span>!</p>
+
+        {/* Image Grid with Descriptions and Booking Buttons */}
+        <div className="mt-10 w-full grid grid-cols-1 md:grid-cols-3 gap-6 mx-auto bg-gray-100 p-6 rounded-lg shadow-md">
+          {[{
+            image1: "/food_1.jpg", image2: "/food_2.jpg",
+            title: "Kool Food - ซอยพะเยา เปิดใหม่",
+            description: "เมนูเนื้อริบอายสุดพรีเมียม พร้อมบรรยากาศร้านสุดอบอุ่น |⭐ 4.5"
+          }, {
+            image1: "/food_3.jpg", image2: "/food_4.jpg",
+            title: "บรรยากาศหรูหรา - เมนูอาหารญี่ปุ่นสดใหม่",
+            description: "🍣 เมนูแนะนำ: ซาชิมิสดใหม่ และ ซูชิหลากหลาย |⭐ 5"
+          }, {
+            image1: "/food_5.jpg", image2: "/food_6.jpg",
+            title: "โปรโมชั่นสุดคุ้ม - ส่วนลดพิเศษ 50%",
+            description: "🔥 จองเลย! รับส่วนลดพิเศษสำหรับลูกค้าใหม่ |⭐ 4.5"
+          }].map((item, index) => (
+            <div key={index} className="text-center">
+              <Swiper navigation modules={[Navigation]} spaceBetween={10} slidesPerView={1} className="w-full h-60">
+                <SwiperSlide>
+                  <Image src={item.image1} alt={item.title} layout="fill" objectFit="cover" className="rounded-lg" />
+                </SwiperSlide>
+                <SwiperSlide>
+                  <Image src={item.image2} alt={item.title} layout="fill" objectFit="cover" className="rounded-lg" />
+                </SwiperSlide>
+              </Swiper>
+              <p className="mt-2 text-gray-700 font-semibold">{item.title}</p>
+              <p className="text-gray-600">{item.description}</p>
+              <button className="bg-green-500 text-white px-6 py-2 rounded mt-4 hover:bg-green-600 transition w-full">จองเลย!</button>
+            </div>
+          ))}
+        </div>
         
         <button
           onClick={handleLogout}
@@ -71,8 +104,6 @@ function DashboardPage() {
           Logout
         </button>
       </div>
-
-      {/* Footer */}
       <Footer />
     </div>
   );
