@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
+import Footer from "../components/Footer"; // ✅ นำเข้า Footer
 import Link from "next/link";
 
 function RegisterPage() {
@@ -55,10 +55,13 @@ function RegisterPage() {
   };
 
   return (
-    <div>
+    <div className="flex flex-col min-h-screen">
+      {/* Navbar */}
       <Navbar />
-      <div className="container mx-auto py-5">
-        <h3>Register Page</h3>
+
+      {/* Main Content */}
+      <div className="container mx-auto py-5 flex-grow">
+        <h3 className="text-xl font-bold">Register Page</h3>
         <hr className="my-3" />
         <form onSubmit={handleSubmit}>
           {error && (
@@ -115,6 +118,9 @@ function RegisterPage() {
           Page
         </p>
       </div>
+
+      {/* Footer */}
+      <Footer />
     </div>
   );
 }
