@@ -34,23 +34,23 @@ export default function AdminBookings() {
         <p className="text-red-500 text-center">❌ {error}</p>
       ) : (
         <div className="overflow-x-auto">
-          <table className="w-full mt-4 border border-gray-300 shadow-md rounded-lg text-sm text-gray-900">
+          <table className="w-full mt-4 border border-gray-400 shadow-lg rounded-lg text-sm text-gray-800">
             <thead>
-              <tr className="bg-gray-200 border-b border-gray-300 text-left">
-                <th className="border-r border-gray-300 px-4 py-2">ชื่อ</th>
-                <th className="border-r border-gray-300 px-4 py-2">เบอร์โทร</th>
-                <th className="border-r border-gray-300 px-4 py-2">วันที่</th>
-                <th className="border-r border-gray-300 px-4 py-2">เวลา</th>
+              <tr className="bg-gray-300 border-b border-gray-400 text-left">
+                <th className="border-r border-gray-400 px-4 py-2">ชื่อ</th>
+                <th className="border-r border-gray-400 px-4 py-2">เบอร์โทร</th>
+                <th className="border-r border-gray-400 px-4 py-2">วันที่</th>
+                <th className="border-r border-gray-400 px-4 py-2">เวลา</th>
                 <th className="px-4 py-2">จำนวนคน</th>
               </tr>
             </thead>
             <tbody>
               {bookings.map((booking, index) => (
-                <tr key={booking._id || index} className="border-b border-gray-300 hover:bg-gray-100">
-                  <td className="border-r border-gray-300 px-4 py-2">{booking.name}</td>
-                  <td className="border-r border-gray-300 px-4 py-2">{booking.phone}</td>
-                  <td className="border-r border-gray-300 px-4 py-2">{new Date(booking.date).toLocaleDateString()}</td>
-                  <td className="border-r border-gray-300 px-4 py-2">{booking.time}</td>
+                <tr key={booking._id || index} className="border-b border-gray-400 hover:bg-gray-200">
+                  <td className="border-r border-gray-400 px-4 py-2">{booking.name}</td>
+                  <td className="border-r border-gray-400 px-4 py-2">{booking.phone}</td>
+                  <td className="border-r border-gray-400 px-4 py-2">{new Date(booking.date).toLocaleDateString()}</td>
+                  <td className="border-r border-gray-400 px-4 py-2">{booking.time}</td>
                   <td className="px-4 py-2 text-center">{booking.numPeople}</td>
                 </tr>
               ))}
