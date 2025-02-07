@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import AdminNavbar from "../../components/AdminNavbar";
+import Navbar from "../../components/Navbar";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer, CartesianGrid } from "recharts";
 
 export default function AdminBookings() {
@@ -46,7 +46,7 @@ export default function AdminBookings() {
 
   return (
     <div className="h-screen w-full flex flex-col">
-      <AdminNavbar />
+      <Navbar />
 
       <div className="p-6 pt-16 flex-grow">
         <h1 className="text-2xl font-bold text-center mb-4">รายการจองทั้งหมด</h1>

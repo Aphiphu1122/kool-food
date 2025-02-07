@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import AdminNavbar from "../components/AdminNavbar";
+import Navbar from "../components/Navbar";
 
 export default function AdminDashboard() {
   const [bookings, setBookings] = useState([]);
@@ -22,7 +22,7 @@ export default function AdminDashboard() {
     >
       {/* ทำให้ Navbar ติดอยู่ด้านบน */}
       <div className="absolute top-0 left-0 w-full">
-        <AdminNavbar />
+        <Navbar />
       </div>
 
       {/* กรอบแดชบอร์ดอยู่ตรงกลาง (ไม่ให้ดัน Navbar ลงมา) */}
