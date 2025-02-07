@@ -77,7 +77,7 @@ function RegisterPage() {
 
   return (
     <div className="flex flex-col min-h-screen bg-cover bg-center relative"
-         style={{ backgroundImage: "url('/Bg1.webp')" }}>
+         style={{ backgroundImage: "url('/Bg3.jpg')" }}>
       <Navbar />
 
       {/* กล่องสมัครสมาชิกแบบเบลอเฉพาะจุด */}

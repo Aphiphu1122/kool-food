@@ -58,10 +58,9 @@ function LoginPage() {
 
   return (
     <div className="flex flex-col min-h-screen bg-cover bg-center" 
-         style={{ backgroundImage: "url('/Bg1.webp')" }}>
+         style={{ backgroundImage: "url('/Bg4.jpg')" }}>
       <Navbar />
 
-      {/* กล่องล็อกอินแบบเบลอเฉพาะจุด */}
       <div className="flex flex-col items-center justify-center flex-grow">
         <div className="bg-white bg-opacity-80 backdrop-blur-lg shadow-xl p-8 rounded-lg w-full max-w-md">
           <div className="flex justify-center mb-6">
