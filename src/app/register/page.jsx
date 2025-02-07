@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 function RegisterPage() {
   const [name, setName] = useState("");
@@ -12,57 +13,79 @@ function RegisterPage() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
     setSuccess("");
+    setLoading(true);
 
+    // ✅ ตรวจสอบว่ารหัสผ่านตรงกัน
     if (password !== confirmPassword) {
-      setError("Passwords do not match!");
+      setError("รหัสผ่านไม่ตรงกัน!");
+      setLoading(false);
       return;
     }
 
-    if (!name || !email || !password || !confirmPassword) {
-      setError("Please complete all fields.");
+    // ✅ ตรวจสอบว่ากรอกข้อมูลครบ
+    if (!name.trim() || !email.trim() || !password.trim()) {
+      setError("กรุณากรอกข้อมูลให้ครบถ้วน");
+      setLoading(false);
+      return;
+    }
+
+    // ✅ ตรวจสอบรูปแบบอีเมล
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      setError("อีเมลไม่ถูกต้อง");
+      setLoading(false);
       return;
     }
 
     try {
-      const res = await fetch("http://localhost:3000/api/register", {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, password }),
+        body: JSON.stringify({ name: name.trim(), email: email.trim(), password }),
+        credentials: "include", // ✅ รองรับ httpOnly Cookie
       });
 
       const data = await res.json();
 
       if (!res.ok) {
-        setError(data.message || "User registration failed.");
+        setError(data.message || "สมัครสมาชิกไม่สำเร็จ");
+        setLoading(false);
         return;
       }
 
-      setError("");
-      setSuccess("User registered successfully!");
+      setSuccess("สมัครสมาชิกสำเร็จ! กำลังเปลี่ยนเส้นทาง...");
       setName("");
       setEmail("");
       setPassword("");
       setConfirmPassword("");
+
+      // ✅ รอ 2 วินาทีก่อน Redirect ไปหน้า Login
+      setTimeout(() => {
+        router.push("/login");
+      }, 2000);
+
     } catch (error) {
-      console.error("Error during registration: ", error);
-      setError("An error occurred. Please try again.");
+      console.error("❌ Error during registration:", error);
+      setError("เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง");
     }
+
+    setLoading(false);
   };
 
   return (
     <div className="flex flex-col min-h-screen">
-
       <Navbar />
 
       <div className="flex flex-col items-center justify-center flex-grow">
         <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
           
-
           <div className="flex justify-center mb-6">
             <img
               src="/kool_food_logo_1.png"
@@ -71,8 +94,9 @@ function RegisterPage() {
             />
           </div>
 
-          <h3 className="text-2xl font-bold text-center mb-4 text-gray-800">Sign Up</h3>
-          
+          <h3 className="text-2xl font-bold text-center mb-4 text-gray-800">
+            สมัครสมาชิก
+          </h3>
 
           <form onSubmit={handleSubmit}>
             {error && (
@@ -90,43 +114,45 @@ function RegisterPage() {
               value={name}
               onChange={(e) => setName(e.target.value)}
               className="w-full bg-gray-300 border p-3 rounded-md mb-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="Enter your name"
+              placeholder="กรอกชื่อของคุณ"
+              autoFocus={error !== ""}
             />
             <input
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className="w-full bg-gray-300 border p-3 rounded-md mb-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="Enter your email"
+              placeholder="กรอกอีเมลของคุณ"
             />
             <input
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className="w-full bg-gray-300 border p-3 rounded-md mb-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="Enter your password"
+              placeholder="สร้างรหัสผ่าน"
             />
             <input
               type="password"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
               className="w-full bg-gray-300 border p-3 rounded-md mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="Confirm your password"
+              placeholder="ยืนยันรหัสผ่าน"
             />
             <button
               type="submit"
-              className="w-full bg-green-500 text-white py-3 rounded-md hover:bg-green-600 transition"
+              className="w-full bg-green-500 text-white py-3 rounded-md hover:bg-green-600 transition disabled:opacity-50"
+              disabled={loading}
             >
-              Sign Up
+              {loading ? "กำลังสมัครสมาชิก..." : "สมัครสมาชิก"}
             </button>
           </form>
 
           <hr className="my-4" />
           
           <p className="text-center text-gray-600">
-            Already have an account?{" "}
+            มีบัญชีอยู่แล้ว?{" "}
             <Link className="text-blue-500 hover:underline" href="/login">
-              Login
+              เข้าสู่ระบบ
             </Link>
           </p>
         </div>

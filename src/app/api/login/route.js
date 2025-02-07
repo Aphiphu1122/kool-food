@@ -9,38 +9,55 @@ const SECRET_KEY = process.env.JWT_SECRET || "your_secret_key";
 export async function POST(req) {
     try {
         const { email, password } = await req.json();
+
         if (!email || !password) {
-            return NextResponse.json({ message: "Email and password are required." }, { status: 400 });
+            return NextResponse.json({ success: false, message: "กรุณากรอกอีเมลและรหัสผ่าน" }, { status: 400 });
         }
 
         await connectMongoDB();
-        const user = await User.findOne({ email });
+        const user = await User.findOne({ email: email.toLowerCase().trim() });
 
-        // ตรวจสอบว่า user มีอยู่หรือไม่
         if (!user) {
-            console.log("❌ User not found:", email);
-            return NextResponse.json({ message: "Invalid email or password." }, { status: 401 });
+            return NextResponse.json({ success: false, message: "อีเมลหรือรหัสผ่านไม่ถูกต้อง" }, { status: 401 });
         }
 
-        // DEBUG: แสดงรหัสผ่านที่เข้ารหัส
-        console.log("🔑 Hashed password from DB:", user.password);
-
-        // เปรียบเทียบรหัสผ่าน
         const isMatch = await bcrypt.compare(password, user.password);
-
         if (!isMatch) {
-            console.log("❌ Password mismatch:", password);
-            return NextResponse.json({ message: "Invalid email or password." }, { status: 401 });
+            return NextResponse.json({ success: false, message: "อีเมลหรือรหัสผ่านไม่ถูกต้อง" }, { status: 401 });
         }
 
-        // สร้าง Token JWT
-        const token = jwt.sign({ id: user._id, email: user.email }, SECRET_KEY, { expiresIn: "1h" });
+        // ✅ สร้าง JWT Token
+        const token = jwt.sign(
+            { id: user._id, email: user.email, role: user.role },
+            SECRET_KEY,
+            { expiresIn: "1h" }
+        );
 
-        console.log("✅ Login successful for:", email);
-        return NextResponse.json({ message: "Login successful", token }, { status: 200 });
+        console.log("✅ Login สำเร็จ:", email);
+
+        // ✅ ส่ง Token ผ่าน `httpOnly Cookie`
+        const response = NextResponse.json({
+            success: true,
+            message: "เข้าสู่ระบบสำเร็จ!",
+            user: {
+                id: user._id,
+                name: user.name,
+                email: user.email,
+                role: user.role
+            }
+        });
+
+        response.cookies.set("token", token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production",
+            maxAge: 3600, // 1 ชั่วโมง
+            sameSite: "strict"
+        });
+
+        return response;
 
     } catch (error) {
-        console.error("Login error:", error);
-        return NextResponse.json({ message: "An error occurred during login.", error: error.message }, { status: 500 });
+        console.error("🔥 Login error:", error);
+        return NextResponse.json({ success: false, message: "เกิดข้อผิดพลาดในเซิร์ฟเวอร์", error: error.message }, { status: 500 });
     }
 }

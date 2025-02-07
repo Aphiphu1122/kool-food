@@ -16,45 +16,50 @@ function DashboardPage() {
   const router = useRouter();
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const fetchUser = async () => {
+      try {
+        const res = await fetch("/api/user", {
+          method: "GET",
+          credentials: "include", // ✅ ดึงข้อมูลโดยใช้ Cookie
+        });
 
-    if (!token) {
-      router.push("/login");
-      return;
-    }
+        const data = await res.json();
 
-    fetch("http://localhost:3000/api/profile", {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.error) {
-          localStorage.removeItem("token");
-          router.push("/login");
-        } else {
-          setUser(data.user);
+        if (!res.ok) {
+          console.error("❌ Unauthorized:", data);
+          router.push("/login"); // ✅ ถ้าไม่ได้ Login ให้กลับไปหน้า Login
+          return;
         }
-      })
-      .catch(() => {
-        localStorage.removeItem("token");
+
+        setUser(data.user);
+      } catch (error) {
+        console.error("🔥 Fetch user error:", error);
         router.push("/login");
-      })
-      .finally(() => setLoading(false));
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUser();
   }, []);
 
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    router.push("/login");
+  const handleLogout = async () => {
+    try {
+      await fetch("/api/logout", {
+        method: "POST",
+        credentials: "include",
+      });
+
+      router.push("/login");
+    } catch (error) {
+      console.error("Logout Error:", error);
+    }
   };
 
   if (loading)
     return (
       <div className="flex items-center justify-center h-screen">
-        <p className="text-lg font-semibold">Loading...</p>
+        <p className="text-lg font-semibold">กำลังโหลดข้อมูล...</p>
       </div>
     );
 
@@ -123,8 +128,8 @@ function DashboardPage() {
               <button
                 onClick={() => router.push(`/aboutfood`)}
                 className="bg-black text-white px-6 py-2 rounded mt-4 hover:bg-gray-800 transition w-full"
-            >
-  แสดงรายละเอียดเพิ่มเติม!
+              >
+                แสดงรายละเอียดเพิ่มเติม!
               </button>
             </div>
           ))}

@@ -15,11 +15,19 @@ function Navbar() {
     setIsLoggedIn(!!token);
   }, []);
 
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    setIsLoggedIn(false);
-    router.push("/login");
-  };
+  const handleLogout = async () => {
+    try {
+        await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/logout`, {
+            method: "POST",
+            credentials: "include"
+        });
+
+        router.push("/login"); // กลับไปหน้า Login
+    } catch (error) {
+        console.error("Logout Error:", error);
+    }
+};
+
 
   return (
     <nav className="bg-black text-white p-4 shadow-md">
