@@ -11,6 +11,9 @@ function AboutfoodPage() {
     const [selectedOption, setSelectedOption] = useState("");
     const [numPeople, setNumPeople] = useState(""); // จำนวนคน
     const [date, setDate] = useState(""); // วันที่
+    const handleBooking = () => {
+        router.push('/booking'); // ไปที่หน้า booking.jsx
+    };
 
     return (
         <div>
@@ -255,11 +258,12 @@ function AboutfoodPage() {
 
                     {/* ปุ่ม "จองเลย" */}
                     <button
+                        onClick={handleBooking} 
                         style={{
                             marginTop: '20px',
                             padding: '10px 20px',
                             borderRadius: '5px',
-                            backgroundColor: '#ff6f61',
+                            backgroundColor: '#dc0000',
                             color: 'white',
                             fontSize: '16px',
                             border: 'none',
@@ -268,7 +272,7 @@ function AboutfoodPage() {
                             textAlign: 'center'
                         }}
                     >
-                        จองเลย
+                        จองเลย!
                     </button>
                 </div>
             </div>
