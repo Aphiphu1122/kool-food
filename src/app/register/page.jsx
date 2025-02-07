@@ -22,21 +22,18 @@ function RegisterPage() {
     setSuccess("");
     setLoading(true);
 
-    // ✅ ตรวจสอบว่ารหัสผ่านตรงกัน
     if (password !== confirmPassword) {
       setError("รหัสผ่านไม่ตรงกัน!");
       setLoading(false);
       return;
     }
 
-    // ✅ ตรวจสอบว่ากรอกข้อมูลครบ
     if (!name.trim() || !email.trim() || !password.trim()) {
       setError("กรุณากรอกข้อมูลให้ครบถ้วน");
       setLoading(false);
       return;
     }
 
-    // ✅ ตรวจสอบรูปแบบอีเมล
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       setError("อีเมลไม่ถูกต้อง");
@@ -49,7 +46,7 @@ function RegisterPage() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name: name.trim(), email: email.trim(), password }),
-        credentials: "include", // ✅ รองรับ httpOnly Cookie
+        credentials: "include",
       });
 
       const data = await res.json();
@@ -66,7 +63,6 @@ function RegisterPage() {
       setPassword("");
       setConfirmPassword("");
 
-      // ✅ รอ 2 วินาทีก่อน Redirect ไปหน้า Login
       setTimeout(() => {
         router.push("/login");
       }, 2000);
@@ -80,16 +76,18 @@ function RegisterPage() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen bg-cover bg-center relative"
+         style={{ backgroundImage: "url('/Bg1.webp')" }}>
       <Navbar />
 
+      {/* กล่องสมัครสมาชิกแบบเบลอเฉพาะจุด */}
       <div className="flex flex-col items-center justify-center flex-grow">
-        <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+        <div className="bg-white bg-opacity-80 backdrop-blur-lg shadow-xl p-8 rounded-lg w-full max-w-md">
           
           <div className="flex justify-center mb-6">
             <img
               src="/kool_food_logo_1.png"
-              alt="Koolkidklub Logo"
+              alt="Koolfood Logo"
               className="w-34 h-34"
             />
           </div>

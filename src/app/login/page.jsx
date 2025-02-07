@@ -10,14 +10,14 @@ function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const [success, setSuccess] = useState(""); // ✅ เพิ่มข้อความสำเร็จ
+  const [success, setSuccess] = useState("");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
-    setSuccess(""); // ✅ ล้างข้อความก่อน Login
+    setSuccess("");
     setLoading(true);
 
     if (!email.trim() || !password.trim()) {
@@ -31,7 +31,7 @@ function LoginPage() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
-        credentials: "include", // ✅ ส่ง Cookie ไปพร้อมกับ Request
+        credentials: "include",
       });
 
       const data = await res.json();
@@ -42,15 +42,12 @@ function LoginPage() {
         return;
       }
 
-      // ✅ แสดงข้อความสำเร็จ
       setSuccess("เข้าสู่ระบบสำเร็จ! กำลังไปที่ Dashboard...");
       console.log("✅ เปลี่ยนหน้าไปที่ /dashboard...");
 
-      // ✅ หน่วงเวลา 1 วินาทีก่อนเปลี่ยนหน้า
       setTimeout(() => {
         router.push("/dashboard");
       }, 1000);
-
     } catch (error) {
       console.error("❌ Login error:", error);
       setError("เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง");
@@ -60,15 +57,17 @@ function LoginPage() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen bg-cover bg-center" 
+         style={{ backgroundImage: "url('/Bg1.webp')" }}>
       <Navbar />
 
+      {/* กล่องล็อกอินแบบเบลอเฉพาะจุด */}
       <div className="flex flex-col items-center justify-center flex-grow">
-        <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+        <div className="bg-white bg-opacity-80 backdrop-blur-lg shadow-xl p-8 rounded-lg w-full max-w-md">
           <div className="flex justify-center mb-6">
             <img
               src="/kool_food_logo_1.png"
-              alt="Koolkidklub Logo"
+              alt="Koolfood Logo"
               className="w-34 h-34"
             />
           </div>
@@ -82,7 +81,7 @@ function LoginPage() {
               </div>
             )}
 
-            {success && ( // ✅ แสดงข้อความเมื่อ Login สำเร็จ
+            {success && (
               <div className="bg-green-500 text-white text-sm py-2 px-4 rounded-md mb-3">
                 {success}
               </div>
@@ -122,7 +121,7 @@ function LoginPage() {
           </p>
         </div>
       </div>
-      
+
       <Footer />
     </div>
   );
