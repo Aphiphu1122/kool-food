@@ -1,11 +1,13 @@
 "use client";
 
 import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import Navbar from '../components/Navbar';
 import Footer from "../components/Footer";
 import { FaArrowLeft } from 'react-icons/fa';
 
 function AboutfoodPage() {
+    const router = useRouter();
     const [selectedOption, setSelectedOption] = useState("");
     const [numPeople, setNumPeople] = useState(""); // จำนวนคน
     const [date, setDate] = useState(""); // วันที่
@@ -13,6 +15,26 @@ function AboutfoodPage() {
     return (
         <div>
             <Navbar />
+
+            {/* ปุ่มย้อนกลับ */}
+            <div style={{ display: 'flex', alignItems: 'center', padding: '10px 20px' }}>
+                <button
+                    onClick={() => router.push('/dashboard')}
+                    style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '8px',
+                        background: 'none',
+                        border: 'none',
+                        color: '#333',
+                        fontSize: '16px',
+                        cursor: 'pointer'
+                    }}
+                >
+                    <FaArrowLeft size={20} />
+                    <span>ย้อนกลับ</span>
+                </button>
+            </div>
 
             <div
                 style={{
@@ -23,6 +45,7 @@ function AboutfoodPage() {
                     gap: '20px'
                 }}
             >
+                
                 {/* กรอบรูปใหญ่ (ซ้าย) */}
                 <div
                     style={{
