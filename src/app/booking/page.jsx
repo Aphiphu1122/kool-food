@@ -40,11 +40,13 @@ export default function Booking() {
               <p className="text-right text-xs text-gray-500">0/256</p>
             </div>
 
+            
+
             <button className="w-full bg-red-600 text-white py-2 rounded-md hover:bg-red-700">ยืนยันการจอง</button>
           </form>
         </div>
       </main>
-      <footer />
+      <Footer />
     </div>
   );
 }
