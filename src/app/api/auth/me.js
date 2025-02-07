@@ -13,7 +13,7 @@ export async function GET(req) {
         const decoded = jwt.verify(token, SECRET_KEY);
         return NextResponse.json({ success: true, user: decoded });
 
-    } catch (error) {
+    } catch (_error) {
         return NextResponse.json({ success: false, message: "Token ไม่ถูกต้อง" }, { status: 401 });
     }
 }
