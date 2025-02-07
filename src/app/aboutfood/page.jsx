@@ -9,10 +9,26 @@ import { FaArrowLeft } from 'react-icons/fa';
 function AboutfoodPage() {
     const router = useRouter();
     const [selectedOption, setSelectedOption] = useState("");
-    const [numPeople, setNumPeople] = useState(""); // จำนวนคน
-    const [date, setDate] = useState(""); // วันที่
+    const [numPeople, setNumPeople] = useState(""); 
+    const [date, setDate] = useState(""); 
+    const [review, setReview] = useState(""); 
+    const [reviews, setReviews] = useState([]); 
+
     const handleBooking = () => {
-        router.push('/booking'); // ไปที่หน้า booking.jsx
+        router.push('/booking');
+    };
+
+    const handleReviewSubmit = () => {
+        if (review.trim() === "") return;
+
+        const newReview = {
+            id: Date.now(),
+            text: review,
+            user: "Guest", 
+        };
+
+        setReviews([newReview, ...reviews]); 
+        setReview(""); 
     };
 
     return (
@@ -273,12 +289,55 @@ function AboutfoodPage() {
                         }}
                     >
                         จองเลย!
-                    </button>
+                        </button>
+
+                    {/* Section รีวิว (ด้านล่างของจองเลย) */}
+                    <div style={{ width: '100%', marginTop: '20px', backgroundColor: '#fff', padding: '10px', borderRadius: '5px' }}>
+                        <h3 style={{ fontSize: '16px', fontWeight: 'bold', marginBottom: '10px' }}>📝 รีวิวร้านอาหาร</h3>
+                        
+                        {/* ช่องพิมพ์รีวิว */}
+                        <textarea
+                            style={{ width: '100%', padding: '8px', borderRadius: '5px', border: '1px solid #ddd', fontSize: '14px' }}
+                            rows="3"
+                            placeholder="พิมพ์รีวิวของคุณที่นี่..."
+                            value={review}
+                            onChange={(e) => setReview(e.target.value)}
+                        />
+
+                        {/* ปุ่มส่งรีวิว */}
+                        <button
+                            onClick={handleReviewSubmit}
+                            style={{
+                                marginTop: '10px',
+                                width: '100%',
+                                padding: '8px',
+                                borderRadius: '5px',
+                                backgroundColor: '#007bff',
+                                color: 'white',
+                                border: 'none',
+                                cursor: 'pointer',
+                                fontSize: '14px'
+                            }}
+                        >
+                            ส่งรีวิว
+                        </button>
+
+                        {/* แสดงรีวิว */}
+                        {reviews.length > 0 && (
+                            <ul style={{ marginTop: '10px', maxHeight: '150px', overflowY: 'auto' }}>
+                                {reviews.map((r) => (
+                                    <li key={r.id} style={{ padding: '8px', backgroundColor: '#f9f9f9', borderRadius: '5px', marginBottom: '5px', fontSize: '14px' }}>
+                                        <strong>{r.user}:</strong> {r.text}
+                                    </li>
+                                ))}
+                            </ul>
+                        )}
+                    </div>
                 </div>
             </div>
+
             <Footer />
         </div>
-        
     );
 }
 
