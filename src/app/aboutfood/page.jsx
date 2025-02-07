@@ -2,6 +2,8 @@
 
 import React, { useState } from 'react';
 import Navbar from '../components/Navbar';
+import Footer from "../components/Footer";
+import { FaArrowLeft } from 'react-icons/fa';
 
 function AboutfoodPage() {
     const [selectedOption, setSelectedOption] = useState("");
@@ -247,7 +249,9 @@ function AboutfoodPage() {
                     </button>
                 </div>
             </div>
+            <Footer />
         </div>
+        
     );
 }
 
