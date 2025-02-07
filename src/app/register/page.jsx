@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import Navbar from "../components/Navbar";
-import Footer from "../components/Footer"; // ✅ นำเข้า Footer
+import Footer from "../components/Footer";
 import Link from "next/link";
 
 function RegisterPage() {
