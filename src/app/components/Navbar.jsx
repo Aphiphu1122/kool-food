@@ -89,9 +89,7 @@ function Navbar() {
                   </Link>
                 </li>
               )}
-              <li>
-                <Link href="/dashboard" className="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600 transition">Profile</Link>
-              </li>
+              
               <li>
                 <button onClick={handleLogout} className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 transition">
                   Logout
