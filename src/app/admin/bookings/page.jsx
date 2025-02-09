@@ -31,7 +31,7 @@ export default function AdminBookings() {
         const formattedData = Object.keys(bookingCounts).map((date, index) => ({
           date,
           bookings: bookingCounts[date],
-          color: index % 2 === 0 ? "#ff6b6b" : "#1d4ed8", // สีสลับกัน
+          color: index % 2 === 0 ? "#ff6b6b" : "#1d4ed8",
         }));
 
         setChartData(formattedData);
@@ -45,14 +45,14 @@ export default function AdminBookings() {
   }, []);
 
   return (
-    <div className="h-screen w-full flex flex-col">
+    <div className="h-screen w-full flex flex-col bg-[#f5e1c8]">
       <Navbar />
 
       <div className="p-6 pt-16 flex-grow">
-        <h1 className="text-2xl font-bold text-center mb-4">รายการจองทั้งหมด</h1>
+        <h1 className="text-2xl font-bold text-center mb-4 text-gray-800">รายการจองทั้งหมด</h1>
 
         {loading ? (
-          <p className="text-center">กำลังโหลดข้อมูล...</p>
+          <p className="text-center text-gray-700">กำลังโหลดข้อมูล...</p>
         ) : error ? (
           <p className="text-red-500 text-center">❌ {error}</p>
         ) : (
@@ -67,23 +67,23 @@ export default function AdminBookings() {
                   <Tooltip />
                   <Legend />
                   <Bar
-                        dataKey="bookings"
-                        fill="#DC0000" // 🔹 
-                        label={{ position: "top", fill: "#333", fontSize: 12 }}
-                            shape={(props) => {
-                    const { x, y, width, height, payload } = props;
-            return (
-            <rect
-                x={x}
-                y={y}
-                 width={width}
-                 height={height}
-                fill={payload.color || "#DC0000"} // 🔹 
-                rx="5"
-                 />
-            );
-         }}
-    />
+                    dataKey="bookings"
+                    fill="#DC0000"
+                    label={{ position: "top", fill: "#333", fontSize: 12 }}
+                    shape={(props) => {
+                      const { x, y, width, height, payload } = props;
+                      return (
+                        <rect
+                          x={x}
+                          y={y}
+                          width={width}
+                          height={height}
+                          fill={payload.color || "#DC0000"}
+                          rx="5"
+                        />
+                      );
+                    }}
+                  />
                 </BarChart>
               </ResponsiveContainer>
             </div>
@@ -91,7 +91,7 @@ export default function AdminBookings() {
             <div className="overflow-x-auto">
               <table className="w-full min-w-max mt-4 border border-gray-400 shadow-lg rounded-lg text-sm text-gray-800">
                 <thead>
-                  <tr className="bg-gray-300 border-b border-gray-400 text-left">
+                  <tr className="bg-[#eacda3] border-b border-gray-400 text-left">
                     <th className="border-r border-gray-400 px-4 py-2">ชื่อ</th>
                     <th className="border-r border-gray-400 px-4 py-2">เบอร์โทร</th>
                     <th className="border-r border-gray-400 px-4 py-2">วันที่</th>
@@ -101,7 +101,7 @@ export default function AdminBookings() {
                 </thead>
                 <tbody>
                   {bookings.map((booking, index) => (
-                    <tr key={booking._id || index} className="border-b border-gray-400 hover:bg-gray-200">
+                    <tr key={booking._id || index} className="border-b border-gray-400 hover:bg-[#f0d9b5]">
                       <td className="border-r border-gray-400 px-4 py-2">{booking.name}</td>
                       <td className="border-r border-gray-400 px-4 py-2">{booking.phone}</td>
                       <td className="border-r border-gray-400 px-4 py-2">{new Date(booking.date).toLocaleDateString()}</td>
