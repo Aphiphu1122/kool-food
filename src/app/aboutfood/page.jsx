@@ -6,6 +6,7 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { FaArrowLeft } from "react-icons/fa";
 
+
 function AboutfoodPage() {
   const router = useRouter();
   const [review, setReview] = useState("");
@@ -256,26 +257,44 @@ function AboutfoodPage() {
 
           {/* แสดงรีวิวจาก MongoDB */}
           {reviews.length > 0 && (
-            <ul style={{ marginTop: "10px", maxHeight: "200px", overflowY: "auto" }}>
+            <div style={{ marginTop: "10px", maxHeight: "300px", overflowY: "auto" }}>
               {reviews.map((r) => (
-                <li
+                <div
                   key={r._id}
                   style={{
-                    padding: "8px",
-                    backgroundColor: "#f9f9f9",
-                    borderRadius: "5px",
-                    marginBottom: "5px",
-                    fontSize: "14px",
+                    backgroundColor: "#fff",
+                    padding: "10px",
+                    borderRadius: "10px",
+                    border: "1px solid #ddd",
+                    marginBottom: "10px",
+                    display: "flex",
+                    flexDirection: "column",
                   }}
                 >
-                  <strong>{r.user}:</strong> {r.comment} <span style={{ color: "gold" }}>⭐ {r.rating}</span>
-                </li>
+                  <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                    <div
+                      style={{
+                        width: "30px",
+                        height: "30px",
+                        borderRadius: "50%",
+                        backgroundColor: "red",
+                      }}
+                    ></div>
+                    <div>
+                      <p style={{ margin: 0, fontWeight: "bold" }}>{r.user}</p>
+                      <p style={{ margin: 0, fontSize: "12px", color: "gray" }}>{new Date().toLocaleDateString("th-TH")}</p>
+                    </div>
+                  </div>
+                  <p style={{ marginTop: "10px" }}>{r.comment}</p>
+                  <div style={{ color: "gold" }}>
+                    {Array(r.rating).fill("⭐").join(" ")}
+                  </div>
+                </div>
               ))}
-            </ul>
+            </div>
           )}
         </div>
       </div>
-
       <Footer />
     </>
   );
