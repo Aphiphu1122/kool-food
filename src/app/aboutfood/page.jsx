@@ -103,8 +103,8 @@ function AboutfoodPage() {
               <div key={index} style={{ display: "flex", justifyContent: "space-between" }}>
                 <p>{menu}</p>
                 <div>
-                  <p><b>THB 1,499</b></p>
-                  <p style={{ textDecoration: "line-through", color: "#888" }}>THB 1,999</p>
+                  <p><b>THB 259</b></p>
+                  <p style={{ textDecoration: "line-through", color: "#888" }}>THB 299</p>
                 </div>
               </div>
             ))}
