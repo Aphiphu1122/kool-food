@@ -91,7 +91,7 @@ export default function AdminBookings() {
             <div className="overflow-x-auto">
               <table className="w-full min-w-max mt-4 border border-gray-400 shadow-lg rounded-lg text-sm text-gray-800">
                 <thead>
-                  <tr className="bg-[#eacda3] border-b border-gray-400 text-left">
+                  <tr className="bg-[#ffffff] border-b border-gray-400 text-left">
                     <th className="border-r border-gray-400 px-4 py-2">ชื่อ</th>
                     <th className="border-r border-gray-400 px-4 py-2">เบอร์โทร</th>
                     <th className="border-r border-gray-400 px-4 py-2">วันที่</th>
