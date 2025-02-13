@@ -45,7 +45,7 @@ export default function AdminBookings() {
   }, []);
 
   return (
-    <div className="h-screen w-full flex flex-col bg-[#f5e1c8]">
+    <div className="h-screen w-full flex flex-col bg-[#ffffff]">
       <Navbar />
 
       <div className="p-6 pt-16 flex-grow">
@@ -101,7 +101,7 @@ export default function AdminBookings() {
                 </thead>
                 <tbody>
                   {bookings.map((booking, index) => (
-                    <tr key={booking._id || index} className="border-b border-gray-400 hover:bg-[#f0d9b5]">
+                    <tr key={booking._id || index} className="border-b border-gray-400 hover:bg-[#ffffff]">
                       <td className="border-r border-gray-400 px-4 py-2">{booking.name}</td>
                       <td className="border-r border-gray-400 px-4 py-2">{booking.phone}</td>
                       <td className="border-r border-gray-400 px-4 py-2">{new Date(booking.date).toLocaleDateString()}</td>
