@@ -9,13 +9,13 @@ export async function GET(req) {
     try {
         await connectMongoDB();
 
-        // ✅ ดึง Token จาก Cookie
+       
         const token = req.cookies.get("token")?.value;
         if (!token) {
             return NextResponse.json({ success: false, message: "Unauthorized" }, { status: 401 });
         }
 
-        // ✅ ตรวจสอบ JWT
+ 
         const decoded = jwt.verify(token, SECRET_KEY);
         const user = await User.findById(decoded.id).select("-password");
 
