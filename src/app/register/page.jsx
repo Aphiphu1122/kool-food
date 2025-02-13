@@ -80,7 +80,7 @@ function RegisterPage() {
          style={{ backgroundImage: "url('/Bg3.jpg')" }}>
       <Navbar />
 
-      {/* กล่องสมัครสมาชิกแบบเบลอเฉพาะจุด */}
+      
       <div className="flex flex-col items-center justify-center flex-grow">
         <div className="bg-white bg-opacity-80 backdrop-blur-lg shadow-xl p-8 rounded-lg w-full max-w-md">
           
