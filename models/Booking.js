@@ -6,6 +6,12 @@ const BookingSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    email: {
+      type: String,
+      required: true,
+      lowercase: true, // บันทึก email เป็นตัวพิมพ์เล็กเสมอ
+      trim: true, // ลบช่องว่าง
+    },
     phone: {
       type: String,
       required: true,

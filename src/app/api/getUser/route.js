@@ -4,6 +4,7 @@ import jwt from "jsonwebtoken";
 const SECRET_KEY = process.env.JWT_SECRET || "your_secret_key";
 
 export async function GET(req) {
+
     try {
         const token = req.cookies.get("token")?.value;
 

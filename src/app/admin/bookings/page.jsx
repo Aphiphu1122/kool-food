@@ -12,37 +12,70 @@ export default function AdminBookings() {
 
   useEffect(() => {
     async function fetchBookings() {
-      try {
-        const response = await fetch("/api/booking");
-        if (!response.ok) {
-          throw new Error("Failed to fetch bookings");
+        setLoading(true); // เริ่มโหลดข้อมูล
+        setError(null); // เคลียร์ Error ก่อนโหลด
+
+        try {
+            // ✅ เรียก API ตรวจสอบสิทธิ์ก่อนดึงข้อมูล
+            const authResponse = await fetch("/api/getUser", {
+                method: "GET",
+                credentials: "include",
+            });
+
+            const authData = await authResponse.json();
+
+            console.log("📌 ข้อมูลผู้ใช้ที่ได้รับจาก API:", authData);
+
+            // 🔴 ถ้า Token ไม่ถูกต้อง หรือ User ไม่ใช่ Admin ให้ Redirect กลับหน้าแรก
+            if (!authResponse.ok || !authData.success || authData.user.role !== "admin") {
+                setError("⛔ คุณไม่มีสิทธิ์เข้าถึงหน้านี้");
+                setTimeout(() => window.location.href = "/", 3000); // Redirect หลังจาก 3 วินาที
+                return;
+            }
+
+            // ✅ ถ้าเป็น Admin ให้ดึงข้อมูลการจอง
+            const response = await fetch("/api/bookingadmin", {
+                method: "GET",
+                credentials: "include"
+            });
+
+            if (!response.ok) {
+                throw new Error("❌ Failed to fetch bookings");
+            }
+
+            const data = await response.json();
+            console.log("📌 ข้อมูลการจอง:", data);
+
+            // ✅ ตั้งค่าข้อมูลการจอง
+            setBookings(data.bookings);
+
+            // ✅ นับจำนวนการจองตามวัน
+            const bookingCounts = data.bookings.reduce((acc, booking) => {
+                const date = new Date(booking.date).toLocaleDateString();
+                acc[date] = (acc[date] || 0) + 1;
+                return acc;
+            }, {});
+
+            // ✅ แปลงข้อมูลให้เข้ากับ Recharts
+            const formattedData = Object.keys(bookingCounts).map((date, index) => ({
+                date,
+                bookings: bookingCounts[date],
+                color: index % 2 === 0 ? "#ff6b6b" : "#1d4ed8",
+            }));
+
+            setChartData(formattedData);
+
+        } catch (err) {
+            console.error("🔥 Error fetching bookings:", err);
+            setError(err.message);
+        } finally {
+            setLoading(false); // จบการโหลด
         }
-        const data = await response.json();
-        setBookings(data);
-
-        // นับจำนวนการจองตามวัน
-        const bookingCounts = data.reduce((acc, booking) => {
-          const date = new Date(booking.date).toLocaleDateString();
-          acc[date] = (acc[date] || 0) + 1;
-          return acc;
-        }, {});
-
-        // แปลงข้อมูลให้เข้ากับ Recharts
-        const formattedData = Object.keys(bookingCounts).map((date, index) => ({
-          date,
-          bookings: bookingCounts[date],
-          color: index % 2 === 0 ? "#ff6b6b" : "#1d4ed8",
-        }));
-
-        setChartData(formattedData);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
     }
+
     fetchBookings();
-  }, []);
+}, []);
+
 
   return (
     <div className="h-screen w-full flex flex-col bg-[#ffffff]">

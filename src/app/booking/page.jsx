@@ -35,7 +35,7 @@ export default function Booking() {
       const result = await response.json();
       if (response.ok) {
         setMessage("✅ การจองสำเร็จ!");
-        setTimeout(() => router.push("/confirmation"), 2000);
+        setTimeout(() => router.push("/my-booking"), 2000);
       } else {
         setMessage(`❌ ${result.error}`);
       }
