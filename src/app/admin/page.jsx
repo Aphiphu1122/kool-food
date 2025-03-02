@@ -7,16 +7,15 @@ import Navbar from "../components/Navbar";
 export default function AdminDashboard() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null); // ✅ ใช้ state จัดการข้อผิดพลาด
+  const [error, setError] = useState(null);
   const router = useRouter();
 
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        // ✅ เรียก API ตรวจสอบสิทธิ์ผู้ใช้
         const res = await fetch("/api/getUser", {
           method: "GET",
-          credentials: "include", // ✅ ส่ง Cookies ไปด้วย
+          credentials: "include",
           headers: { "Content-Type": "application/json" }
         });
         
@@ -25,7 +24,7 @@ export default function AdminDashboard() {
 
         if (!res.ok || !data.success || data.user.role !== "admin") {
           setError("คุณไม่มีสิทธิ์เข้าถึงหน้านี้");
-          setTimeout(() => router.push("/"), 3000); // Redirect หลังจาก 3 วินาที
+          setTimeout(() => router.push("/"), 3000);
           return;
         }
 
@@ -60,7 +59,7 @@ export default function AdminDashboard() {
       className="h-screen w-full bg-cover bg-center relative"
       style={{
         backgroundImage: "url('/Bg9.jpg')",
-        backgroundColor: "#f5e1c8",
+        backgroundColor: "#fffff",
         backgroundBlendMode: "overlay",
       }}
     >

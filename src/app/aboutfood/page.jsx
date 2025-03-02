@@ -12,14 +12,39 @@ function AboutfoodPage() {
   const [review, setReview] = useState("");
   const [reviews, setReviews] = useState([]);
   const [rating, setRating] = useState(5);
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   const handleBooking = () => {
     router.push('/booking');
     };
 
-  useEffect(() => {
-    fetchReviews();
-  }, []);
+    useEffect(() => {
+      const checkAuth = async () => {
+        try {
+          const res = await fetch("/api/user", {
+            method: "GET",
+            credentials: "include",
+            headers: { "Content-Type": "application/json" }
+          });
+          const data = await res.json();
+          if (!res.ok || !data.success) {
+            router.push("/login");
+            return;
+          }
+          setUser(data.user);
+        } catch (error) {
+          console.error("❌ Authentication error:", error);
+          router.push("/login");
+        } finally {
+          setLoading(false);
+        }
+      };
+  
+      checkAuth();
+      fetchReviews();
+    }, []);
+
 
   const fetchReviews = async () => {
     try {
@@ -58,7 +83,6 @@ function AboutfoodPage() {
     <>
       <Navbar />
 
-      {/* ปุ่มย้อนกลับ */}
       <div style={{ padding: "10px 20px" }}>
         <button
           onClick={() => router.push("/dashboard")}
@@ -110,7 +134,6 @@ function AboutfoodPage() {
             ))}
           </div>
 
-          {/* แผนที่นะ */}
           <div style={{ marginTop: '20px' }}>
                         <iframe 
                             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3111.0809851607!2d99.92940488009347!3d19.035379199219932!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x30d8330f050e8c2b%3A0xaf2863e5025ed99f!2zT2theSBTaGFidSDguKrguLLguILguLIg4LihLuC4nuC4sOC5gOC4ouC4sg!5e0!3m2!1sth!2sth!4v1738905402768!5m2!1sth!2sth"
@@ -257,7 +280,7 @@ function AboutfoodPage() {
 
           {/* แสดงรีวิวจาก MongoDB */}
           {reviews.length > 0 && (
-            <div style={{ marginTop: "10px", maxHeight: "300px", overflowY: "auto" }}>
+            <div style={{ marginTop: "10px", maxHeight: "800px", overflowY: "auto" }}>
               {reviews.map((r) => (
                 <div
                   key={r._id}

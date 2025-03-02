@@ -19,11 +19,17 @@ export async function POST(req) {
     const body = await req.json();
     console.log("📥 Received booking data:", body);
 
-    const { name, phone, email, numPeople, date, time, notes } = body;
+    let { name, phone, email, numPeople, date, time, notes } = body;
 
     if (!name || !phone || !numPeople || !date || !time) {
       console.error("❌ Missing required fields");
       return NextResponse.json({ error: "❌ กรุณากรอกข้อมูลให้ครบถ้วน" }, { status: 400 });
+    }
+
+    // Check and validate numPeople
+    if (numPeople < 1 || numPeople > 10) {
+      console.error("❌ Number of people must be between 1 and 10");
+      return NextResponse.json({ error: "❌ จำนวนคนต้องอยู่ระหว่าง 1 ถึง 10" }, { status: 400 });
     }
 
     const newBooking = new Booking({ name, phone, email, numPeople, date, time, notes });
@@ -36,3 +42,4 @@ export async function POST(req) {
     return NextResponse.json({ error: "❌ Failed to create booking" }, { status: 500 });
   }
 }
+
